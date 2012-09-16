@@ -1,0 +1,18 @@
+COMPILER_FLAGS = -Wall -Wextra -g -O0 -D_GCC_DEBUG -D_DEBUG
+
+CFLAGS = $(COMPILER_FLAGS)
+CXXFLAGS = $(COMPILER_FLAGS)
+
+ctargets = $(shell find . -mindepth 1 -maxdepth 1 -type f | egrep '\.(c|cpp)$$' | sed -r 's|^\./||;s|\.[^.]+$$||')
+
+jtargets = $(shell ls *.java | sed -r 's|\.java$$|.class|')
+
+all: $(ctargets) $(jtargets)
+
+%.class: %.java
+	javac $<
+
+clean:
+	$(RM) $(ctargets) *.class
+
+# vim:noexpandtab:
