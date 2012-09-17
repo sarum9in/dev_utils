@@ -1,5 +1,7 @@
 COMPILER_FLAGS = -Wall -Wextra -g -O0 -D_GCC_DEBUG -D_DEBUG
 
+JAVAC = $(JAVA_HOME)/bin/javac
+
 CFLAGS = $(COMPILER_FLAGS)
 CXXFLAGS = $(COMPILER_FLAGS)
 
@@ -10,7 +12,7 @@ jtargets = $(shell ls *.java | sed -r 's|\.java$$|.class|')
 all: $(ctargets) $(jtargets)
 
 %.class: %.java
-	javac $<
+	$(JAVAC) $<
 
 clean:
 	$(RM) $(ctargets) *.class
