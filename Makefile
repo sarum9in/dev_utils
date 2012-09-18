@@ -1,12 +1,12 @@
 CMAKE=cmake -DCMAKE_INSTALL_PREFIX=/usr
 
-TARGETS = $(shell echo */CMakeLists.txt | cut -f1 -d/)
+TARGETS = $(shell find . -mindepth 2 -maxdepth 2 -type f -name CMakeLists.txt | cut -f2 -d/)
 
 .PHONY: default
 default: fast
 
-.PHONY .ONESHELL: single fast cmake test publish
-single fast cmake test publish:
+.PHONY .ONESHELL: single fast cmake test publish git-push
+single fast cmake test publish git-push:
 	@ if [ -d build ]
 	@ then
 	@     $(MAKE) $@.cmd
@@ -37,6 +37,10 @@ test.cmd:
 publish.cmd:
 	doxygen && rsync -rvz build/doc/html/ $(shell pwd | sed -r 's|^.*/([^/]+)/([^/]+)$$|cs.istu.ru:public_html/\1/doc/\2|g')
 
+.PHONY: git-push.cmd
+git-push.cmd:
+	git push
+
 .PHONY: rebuild
 rebuild:
 	@ [ -d build ]
@@ -48,8 +52,8 @@ rebuild:
 %.root:
 	$(MAKE) $(patsubst %,%.$*,$(TARGETS))
 
-.PHONY: %.fast %.single %.test %.publish
-%.fast %.single %.test %.publish:
+.PHONY: %.fast %.single %.test %.publish %.git-push
+%.fast %.single %.test %.publish %.git-push:
 	@ if [ -d $* ]; then $(MAKE) -C $(shell echo $@ | tr '.' ' ' ) ; fi
 
 # vim:noexpandtab:
