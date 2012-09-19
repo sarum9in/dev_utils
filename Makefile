@@ -5,8 +5,8 @@ TARGETS = $(shell find . -mindepth 2 -maxdepth 2 -type f -name CMakeLists.txt | 
 .PHONY: default
 default: fast
 
-.PHONY .ONESHELL: single fast cmake test publish git-push
-single fast cmake test publish git-push:
+.PHONY .ONESHELL: single fast cmake test publish git-push git-pull
+single fast cmake test publish git-push git-pull:
 	@ if [ -d build ]
 	@ then
 	@     $(MAKE) $@.cmd
@@ -41,6 +41,10 @@ publish.cmd:
 git-push.cmd:
 	git push
 
+.PHONY: git-pull.cmd
+git-pull.cmd:
+	git pull
+
 .PHONY: rebuild
 rebuild:
 	@ [ -d build ]
@@ -52,8 +56,8 @@ rebuild:
 %.root:
 	$(MAKE) $(patsubst %,%.$*,$(TARGETS))
 
-.PHONY: %.fast %.single %.test %.publish %.git-push
-%.fast %.single %.test %.publish %.git-push:
+.PHONY: %.fast %.single %.test %.publish %.git-push %.git-pull
+%.fast %.single %.test %.publish %.git-push %.git-pull:
 	@ if [ -d $* ]; then $(MAKE) -C $(shell echo $@ | tr '.' ' ' ) ; fi
 
 # vim:noexpandtab:
