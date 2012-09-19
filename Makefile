@@ -19,7 +19,7 @@ single fast cmake test publish git-push git-pull:
 
 .PHONY: single.cmd
 single.cmd: cmake.cmd
-	$(CMAKE) -C build
+	$(MAKE) -C build
 
 .PHONY: fast.cmd
 fast.cmd: cmake.cmd
