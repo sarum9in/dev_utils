@@ -35,15 +35,15 @@ test.cmd:
 
 .PHONY: publish.cmd
 publish.cmd:
-	doxygen && rsync -rvz build/doc/html/ $(shell pwd | sed -r 's|^.*/([^/]+)/([^/]+)$$|cs.istu.ru:public_html/\1/doc/\2|g')
+	@ if [ -f Doxyfile ]; then doxygen && rsync -rvz build/doc/html/ $(shell pwd | sed -r 's|^.*/([^/]+)/([^/]+)$$|cs.istu.ru:public_html/\1/doc/\2|g'); fi
 
 .PHONY: git-push.cmd
 git-push.cmd:
-	git push
+	@ if [ -d .git ]; then git push $(REMOTE) $(BRANCH); fi
 
 .PHONY: git-pull.cmd
 git-pull.cmd:
-	git pull
+	@ if [ -d .git ]; then git push $(REMOTE) $(BRANCH); fi
 
 .PHONY: rebuild
 rebuild:
