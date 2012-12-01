@@ -5,11 +5,9 @@ JAVAC = $(JAVA_HOME)/bin/javac
 CFLAGS = $(COMPILER_FLAGS)
 CXXFLAGS = $(COMPILER_FLAGS)
 
-find = find . -mindepth 1 -maxdepth 1 -type f
+ctargets = $(basename $(wildcard *.cpp) $(wildcard *.cc) $(wildcard *.c))
 
-ctargets = $(shell $(find) | egrep '\.(c|cpp)$$' | sed -r 's|^\./||;s|\.[^.]+$$||')
-
-jtargets = $(shell $(find) | egrep '\.java$$' | sed -r 's|\.java$$|.class|')
+jtargets = $(addsuffix .class,$(basename $(wildcard *.java)))
 
 all: $(ctargets) $(jtargets)
 
