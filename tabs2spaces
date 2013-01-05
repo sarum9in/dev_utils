@@ -1,0 +1,19 @@
+#!/bin/sh -e
+
+on_exit()
+{
+    rm -f "$tmp"
+}
+trap on_exit EXIT INT
+tmp="$(mktemp)"
+
+if [[ $# > 0 ]]
+then
+    for i in "$@"
+    do
+        expand -t 4 "$i" >"$tmp"
+        cat "$tmp" >"$i"
+    done
+else
+    find . -type f '(' -name CMakeLists.txt -o -name '*.?pp' -o -name '*.c' -o -name '*.py' -o -name '*.pxd' -o -name '*.pyx' ')' -exec "$0" '{}' '+'
+fi
