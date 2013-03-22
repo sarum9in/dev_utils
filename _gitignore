@@ -1,6 +1,7 @@
 /.gitignore
 /build
 /Makefile
+/system-config.cmake
 /test
 /old
 __pycache__
