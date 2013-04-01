@@ -49,7 +49,7 @@ git-pull.cmd:
 rebuild:
 	@ [ -d build ]
 	rm -rf build && mkdir build
-	cd build && $(CMAKE) ..
+	cd build && $(CMAKE) .. && cd ..
 	$(MAKE)
 
 .PHONY: %.root
