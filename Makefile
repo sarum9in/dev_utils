@@ -2,6 +2,9 @@ CMAKE=cmake -DCMAKE_INSTALL_PREFIX=/usr
 
 TARGETS = $(shell find . -mindepth 2 -maxdepth 2 -type f -name CMakeLists.txt | cut -f2 -d/)
 
+PROCESSORS = $(shell grep processor /proc/cpuinfo | wc -l)
+JOBS = $(shell echo '($(PROCESSORS)*3)/2' | bc)
+
 .PHONY: default
 default: fast
 
@@ -23,7 +26,7 @@ single.cmd: cmake.cmd
 
 .PHONY: fast.cmd
 fast.cmd: cmake.cmd
-	$(MAKE) -C build -j2
+	$(MAKE) -C build -j$(JOBS)
 
 .PHONY: cmake.cmd
 cmake.cmd:
