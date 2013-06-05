@@ -35,13 +35,16 @@ load_dir()
         echo -n lex-pc cs github | parallel -d " " git fetch "{}"
         git pull github master
         git branch --set-upstream-to=github/master
-        if [[ ! -e build ]]
-        then
-            mkdir build
-        fi
         ln -s "$lex_dev_utils/_gitignore" .gitignore
-        ln -s ../Makefile
-        ln -s ../system-config.cmake
+        if [[ -f CMakeLists.txt ]]
+        then
+            if [[ ! -e build ]]
+            then
+                mkdir build
+            fi
+            ln -s ../Makefile
+            ln -s ../system-config.cmake
+        fi
         popd &>/dev/null
     done
 
@@ -50,5 +53,5 @@ load_dir()
 
 load_dir ~/dev/bunsan bunsan common common_python curl dcs network pm pm_net pm_python process utility web worker worker_python
 load_dir ~/dev/yandex.contest yandex_contest common system invoker invoker_compat_common invoker_compat_jni invoker_flowctl_game invoker_flowctl_pipectl invoker_debian
-load_dir ~/dev/bunsan/bacs bunsan_bacs archive problem repository
-load_dir ~/dev/bunsan/bacs/single bunsan_bacs_single api problem
+load_dir ~/dev/bunsan/bacs bunsan_bacs archive problem problems repository
+load_dir ~/dev/bunsan/bacs/problem_plugins bunsan_bacs_problem single
