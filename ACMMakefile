@@ -5,16 +5,24 @@ JAVAC = $(JAVA_HOME)/bin/javac
 CFLAGS = $(COMPILER_FLAGS)
 CXXFLAGS = $(COMPILER_FLAGS)
 
-ctargets = $(basename $(wildcard *.cpp) $(wildcard *.cc) $(wildcard *.c))
+GOFLAGS =
+#GOFLAGS = -compiler gccgo
+
+exe_targets = $(basename $(wildcard *.cpp) $(wildcard *.cc) $(wildcard *.c) $(wildcard *.go))
 
 jtargets = $(addsuffix .class,$(basename $(wildcard *.java)))
 
-all: $(ctargets) $(jtargets)
+all: $(exe_targets) $(jtargets)
 
 %.class: %.java
 	$(JAVAC) $<
 
+%: %.go
+	go build -o $@ $(GOFLAGS) -a $^
+
+# using $(jtargets) is not recommended
+# since it will skip non-public classes
 clean:
-	$(RM) $(ctargets) *.class
+	$(RM) $(exe_targets) *.class
 
 # vim:noexpandtab:
