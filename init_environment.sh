@@ -51,7 +51,7 @@ load_dir()
     popd &>/dev/null
 }
 
-load_dir ~/dev/bunsan bunsan common common_python curl dcs network pm pm_net pm_python process utility web worker worker_python
+load_dir ~/dev/bunsan bunsan cmake common common_python curl dcs network pm pm_net pm_python process utility web worker worker_python
 load_dir ~/dev/yandex.contest yandex_contest common system invoker invoker_compat_common invoker_compat_jni invoker_flowctl_game invoker_flowctl_pipectl invoker_debian
 load_dir ~/dev/bunsan/bacs bunsan_bacs archive problem problems repository
 load_dir ~/dev/bunsan/bacs/problem_plugins bunsan_bacs_problem single
