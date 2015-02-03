@@ -30,7 +30,7 @@ load_dir()
         git init
         local repo="${prefix}_$i"
         git remote add lex-pc "gitolite@lex.cs.istu.ru:$repo"
-        git remote add cs "gitolite@cs.istu.ru:$repo"
+        git remote add cs "git@cs.istu.ru:$repo"
         git remote add github "git@github.com:sarum9in/${repo}.git"
         parallel git fetch {} ::: lex-pc cs github || git fetch github
         git pull github master
@@ -52,7 +52,37 @@ load_dir()
 }
 
 #        base dir                           repository prefix   projects
-load_dir ~/dev/bunsan                       bunsan              cmake testing binlogs binlogs_python common common_python curl dcs network pm pm_net pm_python process utility web worker worker_python
-load_dir ~/dev/yandex.contest               yandex_contest      common system invoker invoker_compat_common invoker_compat_jni invoker_flowctl_game invoker_flowctl_pipectl invoker_debian
-load_dir ~/dev/bunsan/bacs                  bunsan_bacs archive problem problems repository
+load_dir ~/dev/bunsan                       bunsan              cmake \
+                                                                testing \
+                                                                binlogs \
+                                                                binlogs_python \
+                                                                common \
+                                                                protobuf \
+                                                                common_python \
+                                                                curl \
+                                                                dcs \
+                                                                network \
+                                                                pm \
+                                                                pm_net \
+                                                                pm_python \
+                                                                process \
+                                                                utility \
+                                                                web \
+                                                                worker \
+                                                                worker_python
+
+load_dir ~/dev/yandex.contest               yandex_contest      common \
+                                                                system \
+                                                                invoker \
+                                                                invoker_compat_common \
+                                                                invoker_compat_jni \
+                                                                invoker_flowctl_game \
+                                                                invoker_flowctl_pipectl \
+                                                                invoker_debian
+
+load_dir ~/dev/bunsan/bacs                  bunsan_bacs         archive \
+                                                                problem \
+                                                                problems \
+                                                                repository
+
 load_dir ~/dev/bunsan/bacs/problem_plugins  bunsan_bacs_problem single
