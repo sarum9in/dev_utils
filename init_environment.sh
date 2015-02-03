@@ -15,35 +15,36 @@ load_dir()
     local prefix="$2"
     shift 2
 
-    mkdir "$dir"
+    mkdir -p "$dir"
     pushd "$dir" &>/dev/null
     update
 
-    ln -s "$lex_dev_utils/Makefile"
-    ln -s ../system-config.cmake
+    ln -sf "$lex_dev_utils/Makefile"
+    ln -sf ../system-config.cmake
 
     for i
     do
-        mkdir "$i"
+        mkdir -p "$i"
         pushd "$i" &>/dev/null
         update
-        git init
-        local repo="${prefix}_$i"
-        git remote add lex-pc "gitolite@lex.cs.istu.ru:$repo"
-        git remote add cs "git@cs.istu.ru:$repo"
-        git remote add github "git@github.com:sarum9in/${repo}.git"
-        parallel git fetch {} ::: lex-pc cs github || git fetch github
-        git pull github master
-        git branch --set-upstream-to=github/master || git branch --set-upstream master github/master
-        ln -s "$lex_dev_utils/_gitignore" .gitignore
+        if [[ ! -d .git ]]
+        then
+            git init
+            local repo="${prefix}_$i"
+            git remote add github "git@github.com:sarum9in/${repo}.git"
+            git fetch github
+            git pull github master
+            git branch --set-upstream-to=github/master || git branch --set-upstream master github/master
+        fi
+        ln -sf "$lex_dev_utils/_gitignore" .gitignore
         if [[ -f CMakeLists.txt ]]
         then
             if [[ ! -e build ]]
             then
                 mkdir build
             fi
-            ln -s ../Makefile
-            ln -s ../system-config.cmake
+            ln -sf ../Makefile
+            ln -sf ../system-config.cmake
         fi
         popd &>/dev/null
     done
