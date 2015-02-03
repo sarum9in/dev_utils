@@ -81,7 +81,8 @@ load_dir ~/dev/yandex.contest               yandex_contest      common \
                                                                 invoker_flowctl_pipectl \
                                                                 invoker_debian
 
-load_dir ~/dev/bunsan/bacs                  bunsan_bacs         archive \
+load_dir ~/dev/bunsan/bacs                  bunsan_bacs         external \
+                                                                archive \
                                                                 problem \
                                                                 problems \
                                                                 repository
