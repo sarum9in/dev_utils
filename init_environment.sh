@@ -77,11 +77,14 @@ load_dir ~/dev/yandex.contest               yandex_contest      common \
                                                                 invoker \
                                                                 invoker_compat_common \
                                                                 invoker_compat_jni \
-                                                                invoker_flowctl_game \
+                                                                invoker_flowctl_interactive \
                                                                 invoker_flowctl_pipectl \
                                                                 invoker_debian
 
-load_dir ~/dev/bunsan/bacs                  bunsan_bacs         external \
+load_dir ~/dev/bunsan/bacs                  bunsan_bacs         common \
+                                                                external \
+                                                                system \
+                                                                statement_provider \
                                                                 archive \
                                                                 problem \
                                                                 problems \
