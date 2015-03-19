@@ -1,15 +1,26 @@
 #!/bin/bash -e
 
+operation="$1"
+shift
+
+do_operation()
+{
+    echo "[[[ $PWD ]]]"
+    echo "$operation" "$@"
+    "$operation" "$@"
+    echo
+}
+
 update()
 {
-    lex_dev_utils="lex_dev_utils"
-    while [[ ! -d $lex_dev_utils ]]
+    dev_utils="dev_utils"
+    while [[ ! -d $dev_utils ]]
     do
-        lex_dev_utils="../$lex_dev_utils"
+        dev_utils="../$dev_utils"
     done
 }
 
-load_dir()
+visit()
 {
     local dir="$1"
     local prefix="$2"
@@ -19,7 +30,7 @@ load_dir()
     pushd "$dir" &>/dev/null
     update
 
-    ln -sf "$lex_dev_utils/Makefile"
+    ln -sf "$dev_utils/Makefile"
     ln -sf ../system-config.cmake
 
     for i
@@ -27,41 +38,51 @@ load_dir()
         mkdir -p "$i"
         pushd "$i" &>/dev/null
         update
-        if [[ ! -d .git ]]
-        then
-            git init
-            local repo="${prefix}_$i"
-            git remote add github "git@github.com:sarum9in/${repo}.git"
-            git fetch github
-            git pull github master
-            git branch --set-upstream-to=github/master || git branch --set-upstream master github/master
-        fi
-        ln -sf "$lex_dev_utils/_gitignore" .gitignore
-        if [[ -f CMakeLists.txt ]]
-        then
-            if [[ ! -e build ]]
-            then
-                mkdir build
-            fi
-            ln -sf ../Makefile
-            ln -sf ../system-config.cmake
-        fi
+        do_operation "git@github.com:bunsanorg/${prefix}_${i}.git"
         popd &>/dev/null
     done
 
     popd &>/dev/null
 }
 
+fetch()
+{
+    local url="$1"
+
+    if [[ ! -d .git ]]
+    then
+        git init
+        git remote add github "git@github.com:bunsanorg/${repo}.git"
+        git fetch github
+        git pull github master
+        git branch --set-upstream-to=github/master || git branch --set-upstream master github/master
+    fi
+    ln -sf "$dev_utils/_gitignore" .gitignore
+    if [[ -f CMakeLists.txt ]]
+    then
+        if [[ ! -e build ]]
+        then
+            mkdir build
+        fi
+        ln -sf ../Makefile
+        ln -sf ../system-config.cmake
+    fi
+}
+
+set_remote()
+{
+    local url="$1"
+
+    git remote set-url github "$url"
+}
+
 #        base dir                           repository prefix   projects
-load_dir ~/dev/bunsan                       bunsan              cmake \
+visit    ~/dev/bunsan                       ''                  cmake \
                                                                 testing \
-                                                                binlogs \
-                                                                binlogs_python \
                                                                 common \
                                                                 protobuf \
                                                                 common_python \
                                                                 curl \
-                                                                dcs \
                                                                 network \
                                                                 pm \
                                                                 pm_net \
@@ -69,10 +90,9 @@ load_dir ~/dev/bunsan                       bunsan              cmake \
                                                                 process \
                                                                 utility \
                                                                 web \
-                                                                worker \
                                                                 worker_python
 
-load_dir ~/dev/yandex.contest               yandex_contest      common \
+visit    ~/dev/yandex.contest               yandex_contest      common \
                                                                 system \
                                                                 invoker \
                                                                 invoker_compat_common \
@@ -81,7 +101,7 @@ load_dir ~/dev/yandex.contest               yandex_contest      common \
                                                                 invoker_flowctl_pipectl \
                                                                 invoker_debian
 
-load_dir ~/dev/bunsan/bacs                  bunsan_bacs         common \
+visit    ~/dev/bunsan/bacs                  bacs                common \
                                                                 external \
                                                                 system \
                                                                 statement_provider \
@@ -90,4 +110,4 @@ load_dir ~/dev/bunsan/bacs                  bunsan_bacs         common \
                                                                 problems \
                                                                 repository
 
-load_dir ~/dev/bunsan/bacs/problem_plugins  bunsan_bacs_problem single
+visit    ~/dev/bunsan/bacs/problem_plugins  bacs_problem        single
