@@ -118,11 +118,11 @@ visit    ~/dev/yandex.contest               yandex_contest      common \
 visit    ~/dev/bunsan/bacs                  bacs                common \
                                                                 external \
                                                                 system \
-                                                                statement_provider \
-                                                                archive \
                                                                 problem \
 
 visit    ~/dev/bunsan/bacs/problem_plugins  bacs_problem        single
 
 visit    ~/dev/bunsan/bacs                  bacs                problems \
+                                                                archive \
+                                                                statement_provider \
                                                                 repository
