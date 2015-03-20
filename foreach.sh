@@ -38,7 +38,13 @@ visit()
         mkdir -p "$i"
         pushd "$i" &>/dev/null
         update
-        do_operation "git@github.com:bunsanorg/${prefix}_${i}.git"
+        if [[ $prefix ]]
+        then
+            local repo="${prefix}_${i}"
+        else
+            local repo="${i}"
+        fi
+        do_operation "git@github.com:bunsanorg/${repo}.git"
         popd &>/dev/null
     done
 
@@ -52,7 +58,7 @@ fetch()
     if [[ ! -d .git ]]
     then
         git init
-        git remote add github "git@github.com:bunsanorg/${repo}.git"
+        git remote add github "$url"
         git fetch github
         git pull github master
         git branch --set-upstream-to=github/master || git branch --set-upstream master github/master
@@ -74,6 +80,14 @@ set_remote()
     local url="$1"
 
     git remote set-url github "$url"
+}
+
+rebuild()
+{
+    if [[ -e Makefile ]]
+    then
+        make rebuild
+    fi
 }
 
 #        base dir                           repository prefix   projects
@@ -107,7 +121,8 @@ visit    ~/dev/bunsan/bacs                  bacs                common \
                                                                 statement_provider \
                                                                 archive \
                                                                 problem \
-                                                                problems \
-                                                                repository
 
 visit    ~/dev/bunsan/bacs/problem_plugins  bacs_problem        single
+
+visit    ~/dev/bunsan/bacs                  bacs                problems \
+                                                                repository
