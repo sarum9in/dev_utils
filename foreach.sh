@@ -104,7 +104,8 @@ visit    ~/dev/bunsan                       ''                  cmake \
                                                                 process \
                                                                 utility \
                                                                 web \
-                                                                worker_python
+                                                                worker_python \
+                                                                broker
 
 visit    ~/dev/yandex.contest               yandex_contest      common \
                                                                 system \
