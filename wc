@@ -16,7 +16,8 @@ list()
         -name '*.rst' -o \
         -name '*.java' -o \
         -name '*.tmpl' -o \
-        -name '*.go'
+        -name '*.go' -o \
+        -name '*.proto'
 }
 
 filter()
