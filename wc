@@ -29,4 +29,4 @@ filter()
         grep -v 'boost/preprocessor'
 }
 
-wc -l $(list | filter) | sort -n
+wc -l </dev/null $(list | filter) | sort -n
