@@ -101,6 +101,7 @@ wc()
 visit    ~/dev/bunsan                       ''                  cmake \
                                                                 testing \
                                                                 common \
+                                                                crypto \
                                                                 protobuf \
                                                                 common_python \
                                                                 curl \
