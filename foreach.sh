@@ -90,6 +90,13 @@ rebuild()
     fi
 }
 
+wc()
+{
+    local url="$1"
+
+    "$dev_utils/wc"
+}
+
 #        base dir                           repository prefix   projects
 visit    ~/dev/bunsan                       ''                  cmake \
                                                                 testing \
