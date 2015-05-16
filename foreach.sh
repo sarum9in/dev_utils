@@ -3,6 +3,16 @@
 operation="$1"
 shift
 
+safe_ln()
+{
+    local src="$1"
+    local dst="${2:-$(basename "$src")}"
+    if [[ -h $dst || ! -e $dst ]]
+    then
+        ln -sf "$src" "$dst"
+    fi
+}
+
 do_operation()
 {
     echo "[[[ $PWD ]]]"
@@ -30,8 +40,8 @@ visit()
     pushd "$dir" &>/dev/null
     update
 
-    ln -sf "$dev_utils/Makefile"
-    ln -sf ../system-config.cmake
+    safe_ln "$dev_utils/Makefile"
+    safe_ln ../system-config.cmake
 
     for i
     do
@@ -63,15 +73,15 @@ fetch()
         git pull github master
         git branch --set-upstream-to=github/master || git branch --set-upstream master github/master
     fi
-    ln -sf "$dev_utils/_gitignore" .gitignore
+    safe_ln "$dev_utils/_gitignore" .gitignore
     if [[ -f CMakeLists.txt ]]
     then
         if [[ ! -e build ]]
         then
             mkdir build
         fi
-        ln -sf ../Makefile
-        ln -sf ../system-config.cmake
+        safe_ln ../Makefile
+        safe_ln ../system-config.cmake
     fi
 }
 
