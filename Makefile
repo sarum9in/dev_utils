@@ -34,7 +34,7 @@ cmake.cmd:
 
 .PHONY: test.cmd
 test.cmd:
-	@ cd build && ctest --output-on-failure
+	$(MAKE) -C build test ARGS=--output-on-failure
 
 .PHONY: quiet-test.cmd
 quiet-test.cmd:
