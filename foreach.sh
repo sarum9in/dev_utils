@@ -69,6 +69,7 @@ fetch()
     then
         git init
         git remote add github "$url"
+        set_remote "$@"
         git fetch github
         git pull github master
         git branch --set-upstream-to=github/master || git branch --set-upstream master github/master
@@ -88,8 +89,17 @@ fetch()
 set_remote()
 {
     local url="$1"
+    local pull="$(echo "$url" | sed -r 's|:|/|;s|git[^@]*@|git://|;')"
 
-    git remote set-url github "$url"
+    git remote set-url --push github "$url"
+    git remote set-url github "$pull"
+}
+
+pull()
+{
+    local url="$1"
+
+    git pull --ff-only
 }
 
 rebuild()
