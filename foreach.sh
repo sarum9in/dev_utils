@@ -125,7 +125,6 @@ visit    ~/dev/bunsan                       ''                  cmake \
                                                                 protobuf \
                                                                 common_python \
                                                                 curl \
-                                                                network \
                                                                 pm \
                                                                 pm_net \
                                                                 pm_python \
