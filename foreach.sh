@@ -2,6 +2,7 @@
 
 operation="$1"
 shift
+argv=("$@")
 
 safe_ln()
 {
@@ -102,6 +103,14 @@ pull()
     git pull --ff-only
 }
 
+make()
+{
+    if [[ -e Makefile ]]
+    then
+        make "${argv[@]}"
+    fi
+}
+
 rebuild()
 {
     if [[ -e Makefile ]]
@@ -112,9 +121,12 @@ rebuild()
 
 wc()
 {
-    local url="$1"
-
     "$dev_utils/wc"
+}
+
+grep()
+{
+    git grep "${argv[@]}" | (command grep --color "${argv[@]}" || true)
 }
 
 #        base dir                           repository prefix   projects
