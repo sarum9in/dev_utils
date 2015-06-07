@@ -18,7 +18,7 @@ do_operation()
 {
     echo "[[[ $PWD ]]]"
     echo "$operation" "$@"
-    "$operation" "$@"
+    "op_$operation" "$@"
     echo
 }
 
@@ -62,7 +62,7 @@ visit()
     popd &>/dev/null
 }
 
-fetch()
+op_fetch()
 {
     local url="$1"
 
@@ -70,7 +70,7 @@ fetch()
     then
         git init
         git remote add github "$url"
-        set_remote "$@"
+        op_set_remote "$@"
         git fetch github
         git pull github master
         git branch --set-upstream-to=github/master || git branch --set-upstream master github/master
@@ -87,7 +87,7 @@ fetch()
     fi
 }
 
-set_remote()
+op_set_remote()
 {
     local url="$1"
     local pull="$(echo "$url" | sed -r 's|:|/|;s|git[^@]*@|git://|;')"
@@ -96,14 +96,14 @@ set_remote()
     git remote set-url github "$pull"
 }
 
-pull()
+op_pull()
 {
     local url="$1"
 
     git pull --ff-only
 }
 
-make()
+op_make()
 {
     if [[ -e Makefile ]]
     then
@@ -111,7 +111,7 @@ make()
     fi
 }
 
-rebuild()
+op_rebuild()
 {
     if [[ -e Makefile ]]
     then
@@ -119,14 +119,14 @@ rebuild()
     fi
 }
 
-wc()
+op_wc()
 {
     "$dev_utils/wc"
 }
 
-grep()
+op_grep()
 {
-    git grep "${argv[@]}" | (command grep --color "${argv[@]}" || true)
+    git grep "${argv[@]}" | (grep --color "${argv[@]}" || true)
 }
 
 #        base dir                           repository prefix   projects
