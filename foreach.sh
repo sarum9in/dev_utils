@@ -39,11 +39,6 @@ visit()
 
     mkdir -p "$dir"
     pushd "$dir" &>/dev/null
-    update
-
-    safe_ln "$dev_utils/Makefile"
-    safe_ln ../system-config.cmake
-
     for i
     do
         mkdir -p "$i"
@@ -58,7 +53,6 @@ visit()
         do_operation "git@github.com:bunsanorg/${repo}.git"
         popd &>/dev/null
     done
-
     popd &>/dev/null
 }
 
@@ -82,8 +76,8 @@ op_fetch()
         then
             mkdir build
         fi
-        safe_ln ../Makefile
-        safe_ln ../system-config.cmake
+        safe_ln "$dev_utils/Makefile"
+        safe_ln "$dev_utils/system-config.cmake"
     fi
 }
 
