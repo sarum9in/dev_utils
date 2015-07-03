@@ -14,8 +14,8 @@ auto:
 	@ if [ -f Cargo.toml ]; then $(MAKE) $(MFLAGS) cargo-$(TARGET); fi
 	@ if [ -f setup.py ]; then $(MAKE) $(MFLAGS) python-$(TARGET); fi
 
-.PHONY: prepare rebuild single fast test install
-prepare rebuild single fast test install:
+.PHONY: clean rebuild single fast test install
+clean rebuild single fast test install:
 	@ $(MAKE) $(MFLAGS) auto TARGET=$@
 
 sudo-test: test.sudo
@@ -28,15 +28,21 @@ sudo-quiet-test: quiet-test.sudo
 
 # CMake
 
-.PHONY: cmake-prepare
-cmake-prepare:
+.PHONY: cmake-assert
+cmake-assert:
 	@ [ -d build ]
 	@ [ -f CMakeLists.txt ]
+
+.PHONY: cmake-update
+cmake-prepare: cmake-assert
 	touch CMakeLists.txt
 
+.PHONY: cmake-clean
+cmake-clean: cmake-assert
+	@ $(MAKE) -C build clean
+
 .PHONY: cmake-rebuild
-cmake-rebuild:
-	@ [ -d build ]
+cmake-rebuild: cmake-assert
 	rm -rf build && mkdir build
 	cd build && $(CMAKE) .. && cd ..
 	@ $(MAKE)
@@ -50,13 +56,11 @@ cmake-fast: cmake-prepare
 	@ $(MAKE) -C build -j$(JOBS)
 
 .PHONY: cmake-install
-cmake-install:
-	@ [ -d build ]
+cmake-install: cmake-assert
 	@ $(MAKE) -C build install
 
 .PHONY: cmake-test
-cmake-test:
-	@ [ -d build ]
+cmake-test: cmake-assert
 	@ $(MAKE) -C build test ARGS=--output-on-failure
 
 .PHONY: cmake-quiet-test
@@ -66,56 +70,56 @@ cmake-quiet-test:
 
 # Cargo
 
-.PHONY: cargo-prepare
+.PHONY: cargo-assert
 cargo-prepare:
 	@ [ -f Cargo.toml ]
 
+.PHONY: cargo-clean
+cargo-clean: cargo-assert
+	@ cargo clean
+
 .PHONY: cargo-rebuild
-cargo-rebuild:
-	@ [ -f Cargo.toml ]
-	$(CARGO) clean
+cargo-rebuild: cargo-clean
 	@ $(MAKE)
 
 .PHONY: cargo-single
-cargo-single: cargo-prepare
+cargo-single: cargo-assert
 	$(CARGO) build
 
 .PHONY: cargo-fast
-cargo-fast: cargo-prepare
+cargo-fast: cargo-assert
 	$(CARGO) build -j$(JOBS)
 
 .PHONY: cargo-test
-cargo-test:
+cargo-test: cargo-assert
 	$(CARGO) test
 
 .PHONY: cargo-install
-cargo-install:
+cargo-install: cargo-assert
 	@ echo Not implemented!
 	@ false
 
 # Python
 
-.PHONY: python-prepare
+.PHONY: python-assert
 python-prepare:
 	@ [ -f setup.py ]
 
 .PHONY: python-rebuild
-python-rebuild:
-	@ [ -f setup.py ]
-	@ [ -d build ]
+python-rebuild: python-assert
 	rm -rf build
 	@ $(MAKE)
 
 .PHONY: python-single python-fast
-python-single python-fast: python-prepare
+python-single python-fast: python-assert
 	$(PYTHON) setup.py build
 
 .PHONY: python-test
-python-test:
+python-test: python-assert
 	$(PYTHON) setup.py test
 
 .PHONY: python-install
-python-install:
+python-install: python-assert
 	$(PYTHON) setup.py install --root=$(DESTDIR)
 
 # vim:noexpandtab:
