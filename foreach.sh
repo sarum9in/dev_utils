@@ -125,7 +125,7 @@ op_grep()
 
 #        base dir                           repository prefix   projects
 visit    ~/dev/bunsan                       ''                  cmake \
-                                                                testing \
+                                                                test \
                                                                 common \
                                                                 crypto \
                                                                 protobuf \
