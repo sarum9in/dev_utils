@@ -123,6 +123,16 @@ op_grep()
     git grep "${argv[@]}" | (grep --color "${argv[@]}" || true)
 }
 
+op_todo()
+{
+    if [[ -f TODO ]]
+    then
+        echo ======================================
+        cat TODO
+        echo ======================================
+    fi
+}
+
 #        base dir                           repository prefix   projects
 visit    ~/dev/bunsan                       ''                  cmake \
                                                                 test \
