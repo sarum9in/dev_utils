@@ -26,6 +26,14 @@ sudo-quiet-test: quiet-test.sudo
 	@ sudo $(MAKE) $* $(MFLAGS)
 	@ sudo chown $(shell id -u):$(shell id -g) -R .
 
+.PHONY: format
+format:
+	zsh -c 'setopt null_glob; clang-format -i {include,src,tests}/**/*.?pp {include,src,tests}/**/*.{h,c,cc,proto,tcc} </dev/null'
+
+.PHONY: open
+open:
+	subl3 build/*.sublime-project
+
 # CMake
 
 .PHONY: cmake-assert
