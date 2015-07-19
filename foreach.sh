@@ -35,20 +35,21 @@ visit()
 {
     local dir="$1"
     local prefix="$2"
+    local name
     shift 2
 
     mkdir -p "$dir"
     pushd "$dir" &>/dev/null
-    for i
+    for name
     do
-        mkdir -p "$i"
-        pushd "$i" &>/dev/null
+        mkdir -p "$name"
+        pushd "$name" &>/dev/null
         update
         if [[ $prefix ]]
         then
-            local repo="${prefix}_${i}"
+            local repo="${prefix}_${name}"
         else
-            local repo="${i}"
+            local repo="${name}"
         fi
         do_operation "git@github.com:bunsanorg/${repo}.git"
         popd &>/dev/null
@@ -131,6 +132,13 @@ op_todo()
         cat TODO
         echo ======================================
     fi
+}
+
+op_yakuake()
+{
+    local id="$(qdbus org.kde.yakuake /yakuake/sessions org.kde.yakuake.addSession)"
+    qdbus org.kde.yakuake /yakuake/tabs setTabTitle "$id" "${name:0:10}"
+    qdbus org.kde.yakuake /yakuake/sessions runCommandInTerminal "$id" "cd '$PWD'"
 }
 
 #        base dir                           repository prefix   projects
