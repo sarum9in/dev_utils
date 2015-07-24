@@ -174,6 +174,8 @@ visit    ~/dev/bunsan/bacs                  bacs                common \
 
 visit    ~/dev/bunsan/bacs/problem_plugins  bacs_problem        single
 
+visit    ~/dev/bunsan/bacs/system_plugins   bacs_system         single
+
 visit    ~/dev/bunsan/bacs                  bacs                problems \
                                                                 archive \
                                                                 statement_provider \
