@@ -153,7 +153,6 @@ visit    ~/dev/bunsan                       ''                  cmake \
                                                                 utility \
                                                                 pm \
                                                                 pm_net \
-                                                                pm_python \
                                                                 web \
                                                                 worker_python \
                                                                 broker
