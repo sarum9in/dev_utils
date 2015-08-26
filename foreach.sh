@@ -147,6 +147,7 @@ visit    ~/dev/bunsan                       ''                  cmake \
                                                                 common \
                                                                 crypto \
                                                                 protobuf \
+                                                                rpc \
                                                                 common_python \
                                                                 curl \
                                                                 process \
