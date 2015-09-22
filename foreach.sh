@@ -33,10 +33,11 @@ update()
 
 visit()
 {
-    local dir="$1"
-    local prefix="$2"
+    local project="$1"
+    local dir="$2"
+    local prefix="$3"
     local name
-    shift 2
+    shift 3
 
     mkdir -p "$dir"
     pushd "$dir" &>/dev/null
@@ -51,7 +52,7 @@ visit()
         else
             local repo="${name}"
         fi
-        do_operation "git@github.com:bunsanorg/${repo}.git"
+        do_operation "git@github.com:${project}org/${repo}.git"
         popd &>/dev/null
     done
     popd &>/dev/null
@@ -141,42 +142,42 @@ op_yakuake()
     qdbus org.kde.yakuake /yakuake/sessions runCommandInTerminal "$id" "cd '$PWD'"
 }
 
-#        base dir                           repository prefix   projects
-visit    ~/dev/bunsan                       ''                  cmake \
-                                                                test \
-                                                                common \
-                                                                crypto \
-                                                                protobuf \
-                                                                rpc \
-                                                                common_python \
-                                                                curl \
-                                                                process \
-                                                                utility \
-                                                                pm \
-                                                                pm_net \
-                                                                web \
-                                                                worker_python \
-                                                                broker
+#       project     base dir                        prefix          projects
+visit   bunsan      ~/dev/bunsan                    ''              cmake \
+                                                                    test \
+                                                                    common \
+                                                                    crypto \
+                                                                    protobuf \
+                                                                    rpc \
+                                                                    common_python \
+                                                                    curl \
+                                                                    process \
+                                                                    utility \
+                                                                    pm \
+                                                                    pm_net \
+                                                                    web \
+                                                                    worker_python \
+                                                                    broker
 
-visit    ~/dev/yandex.contest               yandex_contest      common \
-                                                                system \
-                                                                invoker \
-                                                                invoker_compat_common \
-                                                                invoker_compat_jni \
-                                                                invoker_flowctl_interactive \
-                                                                invoker_flowctl_pipectl \
-                                                                invoker_debian
+visit   bunsan      ~/dev/yandex.contest            yandex_contest  common \
+                                                                    system \
+                                                                    invoker \
+                                                                    invoker_compat_common \
+                                                                    invoker_flowctl_interactive \
+                                                                    invoker_flowctl_pipectl \
+                                                                    invoker_debian
+                                                                    #invoker_compat_jni \
 
-visit    ~/dev/bunsan/bacs                  bacs                common \
-                                                                external \
-                                                                problem \
-                                                                system \
+visit   bacs        ~/dev/bacs                      ''              common \
+                                                                    external \
+                                                                    problem \
+                                                                    system \
 
-visit    ~/dev/bunsan/bacs/problem_plugins  bacs_problem        single
+visit   bacs        ~/dev/bacs/problem_plugins      problem         single
 
-visit    ~/dev/bunsan/bacs/system_plugins   bacs_system         single
+visit   bacs        ~/dev/bacs/system_plugins       system          single
 
-visit    ~/dev/bunsan/bacs                  bacs                problems \
-                                                                archive \
-                                                                statement_provider \
-                                                                repository
+visit   bacs        ~/dev/bacs                      ''              problems \
+                                                                    archive \
+                                                                    statement_provider \
+                                                                    repository
