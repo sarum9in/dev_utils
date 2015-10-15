@@ -52,7 +52,7 @@ visit()
         else
             local repo="${name}"
         fi
-        do_operation "git@github.com:${project}org/${repo}.git"
+        do_operation "https://github.com/${project}org/${repo}.git"
         popd &>/dev/null
     done
     popd &>/dev/null
@@ -86,10 +86,8 @@ op_fetch()
 op_set_remote()
 {
     local url="$1"
-    local pull="$(echo "$url" | sed -r 's|:|/|;s|git[^@]*@|git://|;')"
 
-    git remote set-url --push github "$url"
-    git remote set-url github "$pull"
+    git remote set-url github "$url"
 }
 
 op_pull()
