@@ -107,6 +107,11 @@ op_make()
     fi
 }
 
+op_git()
+{
+    git "${argv[@]}"
+}
+
 op_rebuild()
 {
     if [[ -e Makefile ]]
