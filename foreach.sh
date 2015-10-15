@@ -110,6 +110,11 @@ op_git()
     git "${argv[@]}"
 }
 
+op_shell()
+{
+    URL="$1" "$SHELL" -c "${argv[*]}"
+}
+
 op_rebuild()
 {
     if [[ -e Makefile ]]
