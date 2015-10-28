@@ -164,7 +164,6 @@ visit   bunsan      ~/dev/bunsan                    ''              cmake \
                                                                     pm \
                                                                     pm_net \
                                                                     web \
-                                                                    worker_python \
                                                                     broker
 
 visit   bunsan      ~/dev/yandex.contest            yandex_contest  common \
